@@ -6,17 +6,18 @@
   "build-depends": [
     "IO::Socket::Async::SSL"
   ],
-  "description": "A file server for the Gemini protocol.",
+  "description": "A client and server implementation for the Gemini protocol.",
   "license": "Artistic-2.0",
-  "name": "App::GeminiServer",
+  "name": "Net::Gemini",
   "perl": "6.d",
   "provides": {
-    "App::GeminiServer": "lib/App/GeminiServer.rakumod"
+    "Net::Gemini::Server": "lib/Net/Gemini/Server.rakumod",
+    "Net::Gemini::Client": "lib/Net/Gemini/Client.rakumod"
   },
   "resources": [ ],
-  "source-url": "https://github.com/rawleyfowler/App-GeminiServer.git",
+  "source-url": "https://github.com/rawleyfowler/Net-GeminiServer.git",
   "support": {
-    "source": "https://github.com/rawleyfowler/App-GeminiServer.git"
+    "source": "https://github.com/rawleyfowler/Net-GeminiServer.git"
   },
   "tags": [
     "Net",
