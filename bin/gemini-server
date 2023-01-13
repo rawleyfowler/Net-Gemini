@@ -1,0 +1,23 @@
+#!/usr/bin/env raku
+
+use App::GeminiServer;
+
+sub MAIN(Str $domain, Str $priv-key = 'key.pem', Str $cert = 'cert.pem', Int $port = 1965) {
+    unless $priv-key.IO.e && $cert.IO.e {
+        my $gen = prompt "Would you like to generate a certificate and private key in the current directory? [yY/nN]: ";
+        if $gen.lc.starts-with: 'y' {
+            my $domain = prompt "What is your domain? (use localhost to test locally, or your IP if you have no domain): ";
+            my $result = run "openssl req -new -x509 -newkey ec -subj \"CN=$domain\" \\
+        -pkeyopt ec_paramgen_curve:prime256v1 \\
+        -days 1825 -nodes -out cert.pem -keyout key.pem";
+            unless $result.exitcode {
+                die 'Something went wrong generating your certificate!';
+            }
+            say 'Generated certificate properly. Starting server.';
+        }
+    }
+    say 'Certificates look OK.';
+    App::GeminiServer::listen($cert, $priv-key, $domain, $port);
+}
+
+# vim: expandtab shiftwidth=4
