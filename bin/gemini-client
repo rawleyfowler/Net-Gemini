@@ -1,0 +1,9 @@
+#!/usr/bin/env raku
+
+use Net::Gemini::Client;
+
+sub MAIN(Str $target) {
+    await Net::Gemini::Client($target);
+}
+
+# vim: expandtab shiftwidth=4

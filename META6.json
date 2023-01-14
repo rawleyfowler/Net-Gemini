@@ -11,6 +11,7 @@
   "name": "Net::Gemini",
   "perl": "6.d",
   "provides": {
+    "Net::Gemini::Response": "lib/Net/Gemini/Response.rakumod",
     "Net::Gemini::Server": "lib/Net/Gemini/Server.rakumod",
     "Net::Gemini::Client": "lib/Net/Gemini/Client.rakumod"
   },

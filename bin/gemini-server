@@ -2,8 +2,8 @@
 
 use Net::Gemini::Server;
 
-sub MAIN(Str $domain, Str $priv-key = 'key.pem', Str $cert = 'cert.pem', Int $port = 1965) {
-    unless $priv-key.IO.e && $cert.IO.e {
+sub MAIN(Str $domain, Str $cert-key-file = 'key.pem', Str $cert-file = 'cert.pem', Int $port = 1965) {
+    unless $cert-key-file.IO.e && $cert-file.IO.e {
         say "I couldn't find your certificate files.";
         my $gen = prompt "Would you like to generate a certificate and private key in the current directory? [yY/nN]: ";
         if $gen.lc.starts-with: 'y' {
@@ -13,12 +13,12 @@ sub MAIN(Str $domain, Str $priv-key = 'key.pem', Str $cert = 'cert.pem', Int $po
                 die 'Failed to generate your certificates. You can do this manually with the `openssl` command.';
             }
             say 'Generated certificate properly. Starting server.';
-            $priv-key = 'key.pem';
-            $cert = 'cert.pem';
+            $cert-key-file = 'key.pem';
+            $cert-file = 'cert.pem';
         }
     }
     say 'Certificates look OK.';
-    Net::Gemini::Server::listen($cert, $priv-key, $domain, $port);
+    Net::Gemini::Server.new(:$domain, :$port, :$cert-file, :$cert-key-file).listen;
 }
 
 # vim: expandtab shiftwidth=4
