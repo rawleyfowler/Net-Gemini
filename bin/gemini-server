@@ -8,9 +8,9 @@ sub MAIN(Str $domain, Str $priv-key = 'key.pem', Str $cert = 'cert.pem', Int $po
         my $gen = prompt "Would you like to generate a certificate and private key in the current directory? [yY/nN]: ";
         if $gen.lc.starts-with: 'y' {
             my $domain = prompt "What is your domain? (use localhost to test locally, or your IP if you have no domain): ";
-            my $result = shell("openssl req -new -x509 -newkey ec -subj \"/CN=$domain\" -pkeyopt ec_paramgen_curve:prime256v1 -days 1825 -nodes -out cert.pem -keyout key.pem");
-            unless $result.exitcode {
-                die 'Something went wrong generating your certificate!';
+            my $result = qqx[openssl req -new -x509 -newkey ec -subj /CN="$domain" -pkeyopt ec_paramgen_curve:prime256v1 -days 1825 -nodes -out cert.pem -keyout key.pem];
+            unless 'cert.pem'.IO.e && 'key.pem'.IO.e {
+                die 'Failed to generate your certificates. You can do this manually with the `openssl` command.';
             }
             say 'Generated certificate properly. Starting server.';
             $priv-key = 'key.pem';
