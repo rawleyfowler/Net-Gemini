@@ -2,8 +2,13 @@
 
 use Net::Gemini::Client;
 
-sub MAIN(Str $target) {
-    await Net::Gemini::Client($target);
+sub MAIN(Str $target, Int :$port = 1965) {
+    my $client = Net::Gemini::Client($target, $port);
+    react {
+        whenever $client {
+            say $_;
+        }
+    }
 }
 
 # vim: expandtab shiftwidth=4

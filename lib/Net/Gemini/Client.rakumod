@@ -6,23 +6,23 @@ use IO::Socket::Async::SSL;
 
 unit class Net::Gemini::Client;
 
-our sub request($target, $port = 1965) {
-    say $target;
-    say ($target ~~ /^ 'gemini://' <( .* )> '/'? .* \r\n $/);
-    my $host = ($target ~~ /^ 'gemini://'$<host>=[\w] '/' .* $/)<host> || die "Invalid target specified: $target";
-    my $conn = await IO::Socket::Async::SSL.connect($host, $port);
+has Supply $.supply is required;
 
+method Supply {
+    $.supply;
+}
+
+submethod request($target, $port = 1965) {
+    die "Invalid target specified: $target" unless $target ~~ /^ 'gemini://' (<-[/]>+) '/'?/;
+
+    my $host = $0.Str;
+    my $conn = await IO::Socket::Async::SSL.connect($host, $port, :insecure); # Insecure because it is normal to self sign with Gemini.
     $conn.print: $target ~ qq{\x[0d]\x[0a]};
-    return do react {
-        whenever $conn {
-            LEAVE { $conn.close }
-            return $_;
-        }
-    }
+    return Net::Gemini::Client.new(supply => $conn.Supply);
 }
 
 submethod CALL-ME($target, $port = 1965) {
-    &request($target, $port);
+    Net::Gemini::Client.request($target, $port);
 }
 
 # vim: expandtab shiftwidth=4

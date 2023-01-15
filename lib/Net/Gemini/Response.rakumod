@@ -77,7 +77,7 @@ our sub make-generic-response(Int $status-code --> Net::Gemini::Response) is exp
     Net::Gemini::Response.new(:$meta, :$status-code)
 }
 
-our sub make-resource-response(Str $resource, Str $encoding = 'text/gemini; charset=utf-8' --> Net::Gemini::Response) is export {
+our sub make-resource-response(Str $resource, Str :$encoding = 'text/gemini; charset=utf-8' --> Net::Gemini::Response) is export {
     my $actual-resource;
     unless $resource { # "" typically means index.
         if "index.gmi".IO.e {
@@ -117,7 +117,6 @@ method TWEAK {
 
 submethod encode(Str $raw --> Net::Gemini::Response) {
     my $match = Net::Gemini::Response::Parser.parse($raw);
-    say $match;
     $match.Str;
 }
 
