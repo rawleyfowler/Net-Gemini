@@ -10,7 +10,7 @@ use Net::Gemini;
 my $client = Net::Gemini::Client('gemini://gemini.website.space') # Defaults port to 1965, specify port if you want.
 react {
     whenever $client {
-        say $_;
+        say $_; # You'll see the response here!
     }
 }
 ```
