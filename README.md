@@ -53,7 +53,7 @@ sub my-handler(Str $request --> Net::Gemini::Response) {
 
 # Alternatively, if you understand the Gemini protocol you can build response using the Net::Gemini::Response class.
 
-Net::Gemini::Server.new(:$domain, :$port, :$cert-file, :$cert-key-file).listen;
+Net::Gemini::Server.new(:$domain, :$port, :$cert-file, :$cert-key-file).listen(&my-handler);
 ```
 
 ## License
