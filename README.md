@@ -1,5 +1,5 @@
 # Net::Gemini
-Fairly low level bindings to the gemini network protocol.
+Client/Server implementation of the Gemini protocol.
 
 ## How to use
 
