@@ -16,9 +16,9 @@
     "Net::Gemini::Client": "lib/Net/Gemini/Client.rakumod"
   },
   "resources": [ ],
-  "source-url": "https://github.com/rawleyfowler/Net-GeminiServer.git",
+  "source-url": "https://github.com/rawleyfowler/Net-Gemini.git",
   "support": {
-    "source": "https://github.com/rawleyfowler/Net-GeminiServer.git"
+    "source": "https://github.com/rawleyfowler/Net-Gemini.git"
   },
   "tags": [
     "Net",
