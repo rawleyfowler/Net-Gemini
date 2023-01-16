@@ -45,9 +45,7 @@ our grammar Parser is export {
     }
 }
 
-our sub make-generic-redirect-response(Int $status-code where 30 <= $status-code <= 31,
-Str $redirect-to
---> Net::Gemini::Response) is export {
+our sub make-generic-redirect-response(Int $status-code where 30 <= $status-code <= 31, Str $redirect-to --> Net::Gemini::Response) is export {
     my $meta = $redirect-to.starts-with('gemini://') ?? $redirect-to !! 'gemini://' ~ $redirect-to;
     Net::Gemini::Response.new(:$meta, :$status-code);
 }
@@ -79,25 +77,18 @@ our sub make-generic-response(Int $status-code --> Net::Gemini::Response) is exp
 
 our sub make-resource-response(Str $resource, Str :$encoding = 'text/gemini; charset=utf-8' --> Net::Gemini::Response) is export {
     my $actual-resource;
-    unless $resource { # "" typically means index.
-        if "index.gmi".IO.e {
-            $actual-resource = "index.gmi";
-        } elsif "index.gmni".IO.e {
-            $actual-resource = "index.gmni";
-        }
-    }
 
-    unless $resource.ends-with: '.gmi' {
-        if "$resource.gmi".IO.e {
-            $actual-resource = "$resource.gmi";
-        } elsif "$resource.gmni".IO.e {
-            $actual-resource = "$resource.gmni";
+    if $resource.IO.d { # We should serve the index file for directories.
+        if $resource.ends-with: '/' {
+            $actual-resource = $resource ~ "index.gmi";
+        } else {
+            $actual-resource = "$resource/index.gmi";
         }
     }
 
     $actual-resource //= $resource;
 
-    unless $actual-resource.IO.e {
+    if $actual-resource ~~ /.* \.\. .*/ || !$actual-resource.IO.e {
         return make-generic-response(51);
     }
 

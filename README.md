@@ -26,7 +26,7 @@ my $port = 1965; # This is defaulted if not provided
 my $cert-file = 'cert.pem'; # TLS is required for Gemini, so you need a cert file and priv-key
 my $cert-key-file = 'priv-key.pem';
 Net::Gemini::Server.new(:$domain, :$port, :$cert-file, :$cert-key-file).listen;
-# This will serve .gmi and .gmni files from $*CWD
+# This will serve .gmi and .gmni files from $*CWD/public
 # If you include index.gmi in the directory you'll see it become available on the root route.
 ```
 

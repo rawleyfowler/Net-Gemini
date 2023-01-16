@@ -7,7 +7,7 @@ use Net::Gemini::Response;
 # Attempts to serve a file based on the request.
 sub default-handler(Str $domain, Str $request --> Net::Gemini::Response) {
     say "Got request : { $request.chomp }";
-    my $requested-resource = ($request ~~ /^"gemini://$domain/"$<target-resource>=(.*)"\r\n"$/)<target-resource>.Str || "";
+    my $requested-resource = 'public/' ~ (($request ~~ /^"gemini://$domain"'/'?(<-[/]>+)"\r\n"$/)[0].Str || "");
     my $response = Net::Gemini::Response::make-resource-response($requested-resource);
     say "Sending response : { $response.status-code, $response.meta }";
     $response;
