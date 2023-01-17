@@ -90,7 +90,7 @@ our sub make-resource-response(Str $resource, Str :$encoding = 'text/gemini; cha
 
     $actual-resource //= $resource;
 
-    return make-generic-response(51) if $actual-response.IO.e;
+    return make-generic-response(51) if $actual-resource.IO.e;
 
     my $meta = $encoding;
     my $status-code = 20;
