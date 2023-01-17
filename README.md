@@ -1,5 +1,5 @@
 # Net::Gemini
-Client/Server implementation of the Gemini protocol.
+Client/Server implementation of the Gemini protocol, including an API for creating responses. (No API for requests as their just strings)
 
 ## How to use
 
