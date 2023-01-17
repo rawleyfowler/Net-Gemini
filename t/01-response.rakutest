@@ -1,0 +1,13 @@
+use v6;
+
+use Test;
+
+use Net::Gemini::Response;
+
+plan 3;
+
+my $body = 'public/hello.gmi'.IO.slurp.chomp;
+my $meta = 'text/gemini; charset=utf-8';
+is Net::Gemini::Response::make-resource-response('public/hello.gmi').status-code, 20, 'Is status OK for resource response?';
+is Net::Gemini::Response::make-resource-response('public/hello.gmi').body, $body, 'Is body OK for resoure response?';
+is Net::Gemini::Response::make-resource-response('public/hello.gmi').meta, $meta, 'Is meta OK for resource response?';

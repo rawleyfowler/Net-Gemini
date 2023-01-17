@@ -76,7 +76,7 @@ our sub make-generic-response(Int $status-code --> Net::Gemini::Response) is exp
 }
 
 our sub make-resource-response(Str $resource, Str :$encoding = 'text/gemini; charset=utf-8' --> Net::Gemini::Response) is export {
-    return make-generic-response(51) if $resource ~~ /.* \.\. .*/;
+    return make-generic-response(51) if $resource ~~ /.*'..'.*/;
 
     my $actual-resource;
 
@@ -86,11 +86,11 @@ our sub make-resource-response(Str $resource, Str :$encoding = 'text/gemini; cha
         } else {
             $actual-resource = "$resource/index.gmi";
         }
+    } else {
+        $actual-resource = $resource;
     }
 
-    $actual-resource //= $resource;
-
-    return make-generic-response(51) if $actual-resource.IO.e;
+    return make-generic-response(51) unless $actual-resource.IO.e;
 
     my $meta = $encoding;
     my $status-code = 20;
