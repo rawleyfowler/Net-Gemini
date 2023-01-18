@@ -2,7 +2,7 @@
 
 [![SparrowCI](https://ci.sparrowhub.io/project/gh-rawleyfowler-Net-Gemini/badge)](https://ci.sparrowhub.io)
 
-Client/Server implementation of the Gemini protocol, including an API for creating responses. (No API for requests as they're just strings).
+Client/Server implementation of the Gemini protocol, including a simple API for creating responses.
 
 ## How to use
 
